@@ -1,0 +1,34 @@
+function sendmail(e) {
+
+  const itemResponses = e.response.getItemResponses();
+
+  //回答データを取得
+  const items = ["name", "address", "message"]
+  let dicAnswer = {};
+
+  for (let i = 0; i < itemResponses.length; i++) {
+    dicAnswer[items[i]] = itemResponses[i].getResponse()
+  }
+
+  //送信アドレス、件名、本文を宣言
+  const recipient = "送信したいメールアドレスを記載してください";
+  const subject = `お問合せ　${dicAnswer["name"]}様`;
+  
+  const body =
+`お問い合わせを受信しました
+
+お名前：
+${dicAnswer["name"]} 様
+
+メールアドレス：
+${dicAnswer["address"]}
+
+お問い合わせ内容：
+${dicAnswer["message"]} `;
+
+  console.log(subject + "\n\n" + body)
+  
+  //メール送信 
+  GmailApp.sendEmail(recipient, subject, body);
+
+}
